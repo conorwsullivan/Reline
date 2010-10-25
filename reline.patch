@@ -1,0 +1,54 @@
+8,56d7
+<   var preline=function(code){
+< 	//console.log(code);
+< 	lineList=code.split("\n");
+< 	sys=require("sys");
+< 	for(var i in lineList)
+< 	{
+< 		//console.log(typeof(lineList[i]),lineList[i].prototype);
+< 		var line=lineList[i];
+< 		line=line.replace("\n","").replace("\r","");
+< 		//console.log(line.substr(0,line.search(/[^\s]/)),"*");
+< 		lineList[i]=[line.substr(0,line.search(/[^\s]/)),"###:::line ",i.toString(),":::###\n",line].join("");
+< 	}
+< 	//console.log(lineList.join("\n"));
+< 	return lineList.join("\n");
+<   };
+<   var reline=function(code){
+< 	lineList=code.split("\n");
+< 	var outputLine=0;
+< 	for(var i in lineList)
+< 	{
+< 		var line=lineList[i];
+< 		line=line.replace("\n","").replace("\r","");
+< 		console.log(line);
+< 		while(true)
+< 		{
+< 			var match=line.match(/\/\*:::line (\d+):::\*\//);
+< 			//console.log(match);
+< 			if(match)
+< 			{
+< 				var inputLine=parseInt(match[1]);
+< 				var insertion="";
+< 				console.log(inputLine,outputLine);
+< 				while(inputLine>outputLine)
+< 				{
+< 					insertion+="\n";
+< 					outputLine++;
+< 				}
+< 				line=line.replace(/\/\*:::line (\d+):::\*\//,insertion);
+< 				console.log(line);
+< 			}
+< 			else
+< 				break;
+< 		}
+< 		
+< 		lineList[i]=line;
+< 	}
+< 	console.log(lineList.join(""));
+< 	return lineList.join("");
+<   };
+74c25
+<       return reline((parser.parse(lexer.tokenize(preline(code)))).compile(options));
+---
+>       return (parser.parse(lexer.tokenize(code))).compile(options);
